@@ -1,0 +1,38 @@
+block b-popup {
+
+    elem 'title', tag: 'h2'
+
+    elem 'title', default, !this.ctx._wrap: {
+        apply(
+            this.ctx.content = {
+                block: 'b-text',
+                content: this.ctx.content
+            },
+            this.ctx._wrap = true
+        )
+    }
+
+    elem 'photo', tag: 'img'
+
+    elem 'content', default, !this.ctx._wrap: {
+        apply(
+            this.ctx.content = [
+                {
+                    elem: 'photo',
+                    attrs: {
+                        alt: this.ctx.content,
+                        src: this.ctx.photoUrl ? this.ctx.photoUrl : "http://avatars.static.yandex.net/silhouette/male-middle"
+                    }
+                },
+                {
+                    block: 'b-text',
+                    mods: {color: 'black'},
+                    content: this.ctx.content
+                }
+            ],
+            this.ctx._wrap = true
+        )
+    }
+
+
+}

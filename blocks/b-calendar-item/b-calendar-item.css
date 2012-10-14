@@ -1,0 +1,30 @@
+.b-calendar-item
+{
+    margin: 0 0 1px;
+    padding: 10px 10px 10px 2em;
+    background: #fff;
+    border: 1px solid black;
+    width: 300px;
+    display: inline-block;
+}
+
+.b-calendar-item__event
+{
+    display: block;
+    margin: 5px;
+    background-color: rgba(67,128,211,0.4);
+    moz-border-radius: 5px;
+    webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.b-calendar-item__details
+{
+    margin: 0 10px;
+    display: inline;
+}
+
+.b-calendar-item__details-last
+{
+    float: right;
+}

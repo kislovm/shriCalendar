@@ -1,0 +1,35 @@
+block b-calendar-item {
+
+    elem 'date', tag: 'h2'
+
+    elem 'date', default, !this.ctx._wrap: {
+        apply(
+            this.ctx.content = {
+                block: 'b-text',                
+                content: this.ctx.date
+            },
+            this.ctx._wrap = true
+        )
+    }
+
+    elem 'event', tag: 'div'
+
+    elem 'event', default, !this.ctx._wrap: {
+        apply(
+            this.ctx.content = [
+                {
+                    elem: 'details',
+                    mix: [{block: 'b-text'}],
+                    content: this.ctx.theme
+                },
+                {
+                    elem: 'details',
+                    mix: [{block: 'b-text'}, {elem: 'details-last'}],
+                    content: this.ctx.speaker
+                }
+            ],
+            this.ctx._wrap = true
+        )
+    }
+
+}
