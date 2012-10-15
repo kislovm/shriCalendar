@@ -58,7 +58,7 @@ BEM.DOM.decl('b-calendar', {
                 attrs: {'data-event': JSON.stringify(event)},
                 data: event,
                 speaker: event.speaker,
-                theme: event.theme
+                theme: event.theme,
             });
             content[i].data = event;
         });
@@ -71,7 +71,6 @@ BEM.DOM.decl('b-calendar', {
         this.findBlocksInside('b-calendar-item').map(function(item){
             calendar.push(item.save());
         });
-        a = calendar;
         localStorage['calendar'] = JSON.stringify(calendar);
     }
 

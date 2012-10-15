@@ -11,6 +11,7 @@
 
 .b-calendar-item__event
 {
+    position: relative;
     display: block;
     margin: 5px;
     background-color: rgba(67,128,211,0.4);
@@ -28,4 +29,38 @@
 .b-calendar-item__details-last
 {
     float: right;
+}
+
+.b-calendar-item__cross
+{
+    display: none;
+    background-image: url('cross.png'); 
+    position: absolute;
+    right: 5px;
+    top: -8px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.b-calendar-item__event_hover_yes .b-calendar-item__cross
+{
+    display: block;
+}
+
+.b-calendar-item__pencil
+{
+    display: none;
+    background-image: url('pencil.png'); 
+    position: absolute;
+    right: 25px;
+    top: -8px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.b-calendar-item__event_hover_yes .b-calendar-item__pencil
+{
+    display: block;
 }

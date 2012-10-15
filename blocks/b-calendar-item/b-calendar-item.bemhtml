@@ -14,9 +14,19 @@ block b-calendar-item {
 
     elem 'event', tag: 'div'
 
+    elem 'cross', tag: 'div'
+
     elem 'event', default, !this.ctx._wrap: {
         apply(
             this.ctx.content = [
+                {
+                    elem: 'cross',
+                    js: true
+                },
+                {
+                    elem: 'pencil',
+                    js: true
+                },
                 {
                     elem: 'details',
                     mix: [{block: 'b-text'}],
@@ -32,5 +42,6 @@ block b-calendar-item {
             this.ctx._wrap = true
         )
     }
+    
 
 }

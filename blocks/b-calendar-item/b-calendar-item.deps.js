@@ -7,6 +7,9 @@
         }
     ],
     shouldDeps: [
-
+        {
+            block: 'b-calendar-item',
+            elem: ['date','event','cross','details']
+        }
     ]
 })
