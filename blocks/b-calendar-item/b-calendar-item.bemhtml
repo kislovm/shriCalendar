@@ -20,14 +20,15 @@ block b-calendar-item {
                 {
                     elem: 'details',
                     mix: [{block: 'b-text'}],
-                    content: this.ctx.theme
+                    content: 'Тема: '+ this.ctx.theme
                 },
                 {
                     elem: 'details',
                     mix: [{block: 'b-text'}, {elem: 'details-last'}],
-                    content: this.ctx.speaker
+                    content: 'Лектор: '+ (this.ctx.speaker || 'Не указан')
                 }
             ],
+
             this.ctx._wrap = true
         )
     }
