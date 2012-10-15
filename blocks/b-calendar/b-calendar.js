@@ -37,7 +37,26 @@ BEM.DOM.decl('b-calendar', {
                     });
                 });
             }
+            content.push({
+                block: 'b-buttons',
+                js: true,
+                content: [
+                    {
+                        elem: 'save-button',
+                        js: true,
+                        mix: [{elem: 'button'}],
+                        content: "Сохранить"
+                    },
+                    {
+                        elem: 'load-button',
+                        mix: [{elem: 'button'}],
+                        content: "Выгрузить"
+                    }
+                ]
+
+            });
             BEM.blocks['b-calendar-item'].on(this.domElem, 'itemChange', this._onChange, this);
+            BEM.blocks['b-buttons'].on(this.domElem, 'load', this._save, this);
             BEM.DOM.update(this.domElem, BEMHTML.apply(content));
             BEM.DOM.init(this.domElem);
         }
@@ -65,13 +84,32 @@ BEM.DOM.decl('b-calendar', {
         return content;
     },
 
-
-    save: function(){
+    getJSON: function(){
         var calendar = [];
         this.findBlocksInside('b-calendar-item').map(function(item){
             calendar.push(item.save());
         });
-        localStorage['calendar'] = JSON.stringify(calendar);
+        return calendar;
+    },
+
+    _save: function(){
+        alert(JSON.stringify(this.getJSON()));
+    },
+
+    save: function(){
+        localStorage['calendar'] = JSON.stringify(this.getJSON());
     }
 
 });
+
+
+BEM.DOM.decl({block: 'b-buttons', elem: 'load-button'},{
+    onSetMod: {
+        js: function(){
+            this.bindTo('click', function(e){this.trigger('load')});
+            BEM.DOM.init(this.domElem);
+        }
+    }
+
+});
+
