@@ -57,12 +57,23 @@ block b-popup {
         )
     }
 
-    elem 'dateInput', tag: 'input'
+    elem 'dateInput', tag: 'div'
 
     elem 'dateInput', default, !this.ctx._wrap: {
         apply(
+            this.ctx.content = [
+                {
+                    elem: 'label',
+                    tag: 'label',
+                    content: this.ctx.content + ': '
+                },
+                {
+                    elem: 'field',
+                    tag: 'input',
+                    attrs: {name: this.ctx.name, type: 'date'}
+                }
+            ],
             this.ctx.mix = [{elem: 'input'}],
-            this.ctx.attrs = {type: 'date', name: 'date'},
             this.ctx._wrap = true
         )
     }

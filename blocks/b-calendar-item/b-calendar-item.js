@@ -114,3 +114,4 @@ BEM.DOM.decl('b-calendar-item__event', {
 );
 
 BEM.DOM.decl('b-calendar-item__cross');
+BEM.DOM.decl('b-calendar-item__pencil');
