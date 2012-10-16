@@ -29,6 +29,11 @@ block b-popup {
                     block: 'b-text',
                     mods: {color: 'black'},
                     content: this.ctx.content
+                },
+                {
+                    block: 'b-link',
+                    url: this.ctx.presentationUrl,
+                    content: 'Презентация'
                 }
             ],
             this.ctx._wrap = true
@@ -50,7 +55,7 @@ block b-popup {
                 {
                     elem: 'field',
                     tag: 'input',
-                    attrs: {name: this.ctx.name}
+                    attrs: {name: this.ctx.name, value: this.ctx.value || ''}
                 }
             ],
             this.ctx._wrap = true
@@ -70,7 +75,7 @@ block b-popup {
                 {
                     elem: 'field',
                     tag: 'input',
-                    attrs: {name: this.ctx.name, type: 'date'}
+                    attrs: {name: this.ctx.name, type: 'date', value: this.ctx.value || ''}
                 }
             ],
             this.ctx.mix = [{elem: 'input'}],

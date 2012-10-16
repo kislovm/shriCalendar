@@ -43,8 +43,28 @@ BEM.DOM.decl('b-calendar-item__event', {
                                                                                     e.stopImmediatePropagation();
                                                                                     this.trigger('delete');
                                                                                 });
+
+                BEM.blocks['b-calendar-item__pencil'].on(this.domElem, 'edit', this._edit, this);
+                this.findBlockInside('b-calendar-item__pencil').bindTo('click', function(e){
+                                                                                    e.stopImmediatePropagation();
+                                                                                    this.trigger('edit');
+                                                                                });
                 BEM.DOM.init(this.domElem);
             }
+        },
+
+        _build: function(data){
+            var content = {
+                elem: 'event',
+                js: true,
+                attrs: {'data-event': JSON.stringify(data)},
+                data: data,
+                speaker: data.speaker,
+                theme: data.theme,
+            };
+            this.trigger('eventChange');
+            $(this.findBlockOutside('b-calendar-item').domElem).append(BEMHTML.apply(content));
+            //this._delete();
         },
 
         _delete: function(e){
@@ -73,6 +93,7 @@ BEM.DOM.decl('b-calendar-item__event', {
                                         {
                                             elem: 'content',
                                             photoUrl: data.photoUrl || "",
+                                            presentationUrl: data.presentation || "",
                                             content: [
                                                 {
                                                     elem: 'reporter', //some incostency in names
@@ -97,6 +118,103 @@ BEM.DOM.decl('b-calendar-item__event', {
                             ]
                         });
             BEM.DOM.append(page.domElem,content);
+        },
+
+        _edit: function() {
+             var page = this.findBlockOutside('b-page'),
+                data = this.domElem.data('event');
+                content = BEMHTML.apply({
+                            block: 'b-popup',
+                            js: true,
+                            content: [
+                                {
+                                    elem: 'bg'
+                                },
+                                {
+                                    elem: 'window',
+                                    content: [
+                                        {
+                                            elem: 'title',
+                                            content: "Редактирование"
+                                        },
+                                        {
+                                            elem: 'form',
+                                            tag: 'form',
+                                            mix: [{'elem': 'content'}],
+                                            content: [
+                                                {
+                                                    elem: 'input',
+                                                    name: 'speaker',
+                                                    content: "Докладчик",
+                                                    value: data.speaker
+                                                },
+                                                {
+                                                    elem: 'input',
+                                                    name: 'theme',
+                                                    content: "Тема",
+                                                    value: data.theme
+                                                },
+                                                {
+                                                    elem: 'input',
+                                                    name: 'photoUrl',
+                                                    content: "Фото докладчика",
+                                                    value: data.photoUrl
+                                                },
+                                                {
+                                                    elem: 'input',
+                                                    name: 'time',
+                                                    content: "Время",
+                                                    value: data.time
+                                                },
+                                                {
+                                                    elem: 'input',
+                                                    name: 'thesis',
+                                                    content: "Тезисы",
+                                                    value: data.thesis
+                                                },
+                                                {
+                                                    elem: 'input',
+                                                    name: 'presentation',
+                                                    content: "Ссылка на презентацию",
+                                                    value: data.presentation
+                                                },
+                                                {
+                                                    block: 'b-buttons',
+                                                        content: [
+                                                            {
+                                                                elem: 'calendar-edit-button',
+                                                                js: true,
+                                                                mix: [{elem: 'button'}],
+                                                                content: "Сохранить"
+                                                            }
+                                                        ]
+                                                }                                      
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        });
+            BEM.DOM.append(page.domElem,content);
+            this.findBlockOutside('b-page').findBlockInside('b-buttons__calendar-edit-button').unbindFrom('click');
+            this.findBlockOutside('b-page').findBlockInside('b-buttons__calendar-edit-button').bindTo('click', $.proxy(this.itemSave, this));
+        },
+
+        itemSave: function() {
+            var o = {};
+            var a = this.findBlockOutside('b-page').findBlockInside('b-popup__form').domElem.serializeArray();
+            $.each(a, function() {
+               if (o[this.name]) {
+                   if (!o[this.name].push) {
+                       o[this.name] = [o[this.name]];
+                   }
+                   o[this.name].push(this.value || '');
+               } else {
+                   o[this.name] = this.value || '';
+               }
+            });
+            this.domElem.data('event', o);
+            this._build(o);
         },
 
         _mouseIn: function() {

@@ -14,8 +14,6 @@ String.prototype.isJson = function(str) {
         return true;
     }
 
-localStorage['calendar'] = 
-'[{"date":"2011-09-15","events":[{"speaker":"Михаил Трошев","theme":"Общий цикл разработки ","photoUrl":"http://img-fotki.yandex.ru/get/6610/16051756.0/0_a5ee8_af749073_S","date":"2011-09-15","time":"10:00","thesis":"Как разрабатывают ПО, зачем это нужно","presentation":" http://yadi.sk/d/VDsJ4ZUBiq6u"}]},{"date":"2011-09-16","events":[{"speaker":"Виктор Ашик","theme":"Командная строка Unix","date":"2011-09-15","time":"10:00","thesis":"Как разрабатывают ПО, зачем это нужно","presentation":" http://yadi.sk/d/VDsJ4ZUBiq6u"}]}]'
 
 
 BEM.DOM.decl('b-calendar', {
@@ -36,6 +34,11 @@ BEM.DOM.decl('b-calendar', {
         var calendar = localStorage['calendar'],
             content = [],
             that = this;
+
+        if(calendar == 'undefined'|| !calendar || calendar==''){
+            localStorage['calendar'] = 
+            '[{"date":"2011-09-15","events":[{"speaker":"Михаил Трошев","theme":"Общий цикл разработки ","photoUrl":"http://img-fotki.yandex.ru/get/6610/16051756.0/0_a5ee8_af749073_S","date":"2011-09-15","time":"10:00","thesis":"Как разрабатывают ПО, зачем это нужно","presentation":" http://yadi.sk/d/VDsJ4ZUBiq6u"}]},{"date":"2011-09-16","events":[{"speaker":"Виктор Ашик","theme":"Командная строка Unix","date":"2011-09-15","time":"10:00","thesis":"Как разрабатывают ПО, зачем это нужно","presentation":" http://yadi.sk/d/VDsJ4ZUBiq6u"}]}]'
+        }
 
         if (calendar){
             calendar = JSON.parse(calendar);
