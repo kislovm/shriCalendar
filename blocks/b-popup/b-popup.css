@@ -60,3 +60,10 @@
     height: 400px;
     resize: vertical;
 }
+
+.b-popup__input
+{
+    margin-bottom: 10px;
+    float: right;
+    margin-right: 100px;
+}

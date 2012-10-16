@@ -37,6 +37,35 @@ block b-popup {
 
     elem 'textarea', tag: 'textarea'
 
+    elem 'input', tag: 'div'
+
+    elem 'input', default, !this.ctx._wrap: {
+        apply(
+            this.ctx.content = [
+                {
+                    elem: 'label',
+                    tag: 'label',
+                    content: this.ctx.content + ': '
+                },
+                {
+                    elem: 'field',
+                    tag: 'input',
+                    attrs: {name: this.ctx.name}
+                }
+            ],
+            this.ctx._wrap = true
+        )
+    }
+
+    elem 'dateInput', tag: 'input'
+
+    elem 'dateInput', default, !this.ctx._wrap: {
+        apply(
+            this.ctx.mix = [{elem: 'input'}],
+            this.ctx.attrs = {type: 'date', name: 'date'},
+            this.ctx._wrap = true
+        )
+    }
 
 }
 
