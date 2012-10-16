@@ -22,6 +22,7 @@ BEM.DOM.decl('b-popup', {
         },
 
         _onClick: function(e) {
+                console.log(e.target.domElem);
                 this._destruct();
         }
 

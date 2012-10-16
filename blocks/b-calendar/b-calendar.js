@@ -56,7 +56,8 @@ BEM.DOM.decl('b-calendar', {
 
             });
             BEM.blocks['b-calendar-item'].on(this.domElem, 'itemChange', this._onChange, this);
-            BEM.blocks['b-buttons'].on(this.domElem, 'load', this._save, this);
+            BEM.blocks['b-buttons'].on(this.domElem, 'load', this._load, this);
+            BEM.blocks['b-buttons'].on(this.domElem, 'save', this._save, this);
             BEM.DOM.update(this.domElem, BEMHTML.apply(content));
             BEM.DOM.init(this.domElem);
         }
@@ -92,8 +93,62 @@ BEM.DOM.decl('b-calendar', {
         return calendar;
     },
 
+    _load: function(){
+        var json = JSON.stringify(this.getJSON());
+        BEM.DOM.append(this.domElem, BEMHTML.apply({
+                block : 'b-popup',
+                js: true,
+                content: {
+                    elem: 'window',
+                    content: [
+                        {
+                            elem: 'title',
+                            content: 'Экспорт календаря'
+                        },
+                        {
+                            block: 'b-text',
+                            content: json
+                        }
+                    ]
+                }
+                
+            })
+        );
+    },
+
     _save: function(){
-        alert(JSON.stringify(this.getJSON()));
+        var json = JSON.stringify(this.getJSON());
+        BEM.DOM.append(this.domElem, BEMHTML.apply({
+                block : 'b-popup',
+                js: true,
+                content: {
+                    elem: 'window',
+                    content: [
+                        {
+                            elem: 'title',
+                            content: 'Импорт календаря'
+                        },
+                        {
+                            elem: 'textarea',
+                            mix: [{'elem': 'content'}],
+                            content: json
+                        },
+                        {
+                            block: 'b-buttons',
+                                content: [
+                                    {
+                                        elem: 'save-button',
+                                        js: true,
+                                        mix: [{elem: 'button'}],
+                                        content: "Сохранить"
+                                    }
+                                ]
+                        }
+                    ]
+                }
+                
+            })
+        );
     },
 
     save: function(){
@@ -106,10 +161,25 @@ BEM.DOM.decl('b-calendar', {
 BEM.DOM.decl({block: 'b-buttons', elem: 'load-button'},{
     onSetMod: {
         js: function(){
-            this.bindTo('click', function(e){this.trigger('load')});
+            loadButton = this.findBlockInside('b-buttons__load-button');
+            loadButton.bindTo('click', function(e){this.trigger('click')});
+            loadButton.on('click', this._onLoad,this);
+
+            saveButton = this.findBlockInside('b-buttons__save-button');
+            saveButton.bindTo('click', function(e){this.trigger('click')});
+            saveButton.on('click', this._onSave, this);
             BEM.DOM.init(this.domElem);
         }
+    },
+
+    _onLoad: function(){
+        this.trigger('load');
+    },
+
+    _onSave: function(){
+        this.trigger('save');
     }
+
 
 });
 
