@@ -34,6 +34,7 @@ BEM.DOM.decl('b-calendar-item__event', {
                 this.bindTo('mouseover', this._mouseIn);
                 this.bindTo('mouseout', this._mouseOut);
                 BEM.blocks['b-calendar-item__cross'].on(this.domElem, 'delete', this._delete, this);
+                this.findBlockInside('b-calendar-item__cross').bindTo('click', this.trigger('delete'));
                 BEM.DOM.init(this.domElem);
             }
         },
