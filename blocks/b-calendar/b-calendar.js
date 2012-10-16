@@ -137,6 +137,7 @@ BEM.DOM.decl('b-calendar', {
                             },
                             {
                                 block: 'b-text',
+                                mix: [{block: 'b-popup', elem:'content'}],
                                 content: json
                             }
                         ]

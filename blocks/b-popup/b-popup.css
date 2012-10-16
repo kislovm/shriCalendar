@@ -40,6 +40,7 @@
     position: relative;
     line-height: 25px;
     white-space: pre-line;
+    word-break: break-all;
 }
 
 
