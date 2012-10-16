@@ -5,63 +5,75 @@ function sorter(a,b){
     return a.date > b.date;
 }
 
+String.prototype.isJson = function(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
 
 
 BEM.DOM.decl('b-calendar', {
 
-    onSetMod : {
+    onSetMod: {
 
-        js : function() {
-
-            var calendar = localStorage['calendar'],
-                content = [],
-                that = this;
-
-            if (calendar){
-                calendar = JSON.parse(calendar);
-                [].sort.call(calendar,sorter);//maybe need sort before saving
-                calendar.map(function(day){
-                    day.date = new Date(day.date);//complicated thing
-                    var dateString = [day.date.getDate(),day.date.getMonth(),day.date.getFullYear()].join('.');
-                    content.push({
-                        block: 'b-calendar-item',
-                        js: true,
-                        attrs: {'data-date': day.date.getTime()},
-                        content: [
-                                    {
-                                        elem: 'date',
-                                        js: true,
-                                        date: dateString
-                                    }
-                        ].concat(that._buildEvents(day.events))
-                    });
-                });
-            }
-            content.push({
-                block: 'b-buttons',
-                js: true,
-                content: [
-                    {
-                        elem: 'save-button',
-                        js: true,
-                        mix: [{elem: 'button'}],
-                        content: "Сохранить"
-                    },
-                    {
-                        elem: 'load-button',
-                        mix: [{elem: 'button'}],
-                        content: "Выгрузить"
-                    }
-                ]
-
-            });
+        js: function(){
+            this._build();
             BEM.blocks['b-calendar-item'].on(this.domElem, 'itemChange', this._onChange, this);
             BEM.blocks['b-buttons'].on(this.domElem, 'load', this._load, this);
             BEM.blocks['b-buttons'].on(this.domElem, 'save', this._save, this);
-            BEM.DOM.update(this.domElem, BEMHTML.apply(content));
-            BEM.DOM.init(this.domElem);
+
         }
 
+    },
+
+    _build: function(){
+        var calendar = localStorage['calendar'],
+            content = [],
+            that = this;
+
+        if (calendar){
+            calendar = JSON.parse(calendar);
+            [].sort.call(calendar,sorter);//maybe need sort before saving
+            calendar.map(function(day){
+                day.date = new Date(day.date);//complicated thing
+                var dateString = [day.date.getDate(),day.date.getMonth(),day.date.getFullYear()].join('.');
+                content.push({
+                    block: 'b-calendar-item',
+                    js: true,
+                    attrs: {'data-date': day.date.getTime()},
+                    content: [
+                                {
+                                    elem: 'date',
+                                    js: true,
+                                    date: dateString
+                                }
+                    ].concat(that._buildEvents(day.events))
+                });
+            });
+        }
+        content.push({
+            block: 'b-buttons',
+            js: true,
+            content: [
+                {
+                    elem: 'save-button',
+                    js: true,
+                    mix: [{elem: 'button'}],
+                    content: "Сохранить"
+                },
+                {
+                    elem: 'load-button',
+                    mix: [{elem: 'button'}],
+                    content: "Выгрузить"
+                }
+            ]
+
+        });
+        BEM.DOM.update(this.domElem, BEMHTML.apply(content));
+        BEM.DOM.init(this.domElem);
     },
 
     _onChange: function(){
@@ -148,7 +160,7 @@ BEM.DOM.decl('b-calendar', {
                                 block: 'b-buttons',
                                     content: [
                                         {
-                                            elem: 'save-button',
+                                            elem: 'calendar-save-button',
                                             js: true,
                                             mix: [{elem: 'button'}],
                                             content: "Сохранить"
@@ -161,6 +173,15 @@ BEM.DOM.decl('b-calendar', {
                 
             })
         );
+        this.findBlockOutside('b-page').findBlockInside('b-buttons__calendar-save-button').unbindFrom('click');
+        this.findBlockOutside('b-page').findBlockInside('b-buttons__calendar-save-button').bindTo('click', $.proxy(this.calendarSave, this));
+    },
+
+    calendarSave: function(e){
+        var calendar = this.findBlockOutside('b-page').findBlockInside('b-popup__textarea').domElem.val();
+        if (calendar.isJson());
+            localStorage['calendar'] = calendar;
+        this._build();
     },
 
     save: function(){

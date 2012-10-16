@@ -11,10 +11,12 @@
 
 .b-popup__window
 {
-    position: relative;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    margin-left: -225px;
     padding: 10px;
     padding-top: 0;
-    margin: 150px auto;
     width: 450px;
     z-index: 9999;
     background-color: white;
@@ -56,4 +58,5 @@
 {
     width: 100%;
     height: 400px;
+    resize: vertical;
 }

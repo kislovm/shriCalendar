@@ -1,8 +1,14 @@
 .b-calendar
 {
     width: 100%;
+    height: 100px;
 }
 
+
+.b-buttons
+{
+    clear: both;
+}
 
 .b-buttons__button 
 {
