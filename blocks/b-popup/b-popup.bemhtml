@@ -1,5 +1,6 @@
 block b-popup {
 
+
     elem 'title', tag: 'h2'
 
     elem 'title', default, !this.ctx._wrap: {
@@ -38,3 +39,4 @@ block b-popup {
 
 
 }
+

@@ -10,8 +10,8 @@ BEM.DOM.decl('b-popup', {
         js: function() {
                 this.page = this.findBlockOutside('b-page');
                 this.page.setMod('popup', 'yes')
-                this.bindTo('click', function(e){this.trigger('click')});
-                this.on('click', this._onClick, this);
+                this.findBlockInside('b-popup__bg').bindTo('click', function(e){this.trigger('destruct')});
+                BEM.blocks['b-popup__bg'].on(this.domElem, 'destruct', this._destruct, this);
             }
 
         },
@@ -20,10 +20,5 @@ BEM.DOM.decl('b-popup', {
             this.page.setMod('popup', 'no');
             this.destruct();
         },
-
-        _onClick: function(e) {
-                console.log(e.target.domElem);
-                this._destruct();
-        }
 
 });

@@ -86,9 +86,11 @@ BEM.DOM.decl('b-calendar', {
     },
 
     getJSON: function(){
-        var calendar = [];
+        var calendar = [],
+            data;
         this.findBlocksInside('b-calendar-item').map(function(item){
-            calendar.push(item.save());
+            data = item.save();
+            data.events.length > 0 ? calendar.push(data): false;
         });
         return calendar;
     },
@@ -98,19 +100,24 @@ BEM.DOM.decl('b-calendar', {
         BEM.DOM.append(this.domElem, BEMHTML.apply({
                 block : 'b-popup',
                 js: true,
-                content: {
-                    elem: 'window',
-                    content: [
-                        {
-                            elem: 'title',
-                            content: 'Экспорт календаря'
-                        },
-                        {
-                            block: 'b-text',
-                            content: json
-                        }
-                    ]
-                }
+                content: [
+                    {
+                        elem: 'bg'
+                    },
+                    {
+                        elem: 'window',
+                        content: [
+                            {
+                                elem: 'title',
+                                content: 'Экспорт календаря'
+                            },
+                            {
+                                block: 'b-text',
+                                content: json
+                            }
+                        ]
+                    }
+                ]
                 
             })
         );
@@ -121,31 +128,36 @@ BEM.DOM.decl('b-calendar', {
         BEM.DOM.append(this.domElem, BEMHTML.apply({
                 block : 'b-popup',
                 js: true,
-                content: {
-                    elem: 'window',
-                    content: [
-                        {
-                            elem: 'title',
-                            content: 'Импорт календаря'
-                        },
-                        {
-                            elem: 'textarea',
-                            mix: [{'elem': 'content'}],
-                            content: json
-                        },
-                        {
-                            block: 'b-buttons',
-                                content: [
-                                    {
-                                        elem: 'save-button',
-                                        js: true,
-                                        mix: [{elem: 'button'}],
-                                        content: "Сохранить"
-                                    }
-                                ]
-                        }
-                    ]
-                }
+                content: [
+                    {
+                        elem: 'bg'
+                    },
+                    {
+                        elem: 'window',
+                        content: [
+                            {
+                                elem: 'title',
+                                content: 'Импорт календаря'
+                            },
+                            {
+                                elem: 'textarea',
+                                mix: [{'elem': 'content'}],
+                                content: json
+                            },
+                            {
+                                block: 'b-buttons',
+                                    content: [
+                                        {
+                                            elem: 'save-button',
+                                            js: true,
+                                            mix: [{elem: 'button'}],
+                                            content: "Сохранить"
+                                        }
+                                    ]
+                            }
+                        ]
+                    }
+                ]
                 
             })
         );

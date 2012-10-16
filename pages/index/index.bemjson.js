@@ -2,7 +2,6 @@
     block: 'b-page',
     js: true,
     title: 'Расписание занятий ШРИ',
-    mods: {popup: 'yes'},
     head: [
         { elem: 'css', url: '_index.css'},
         { elem: 'css', url: '_index', ie: true },
