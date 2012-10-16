@@ -2,7 +2,7 @@
 /** @requires BEM.DOM */
 
 function sorter(a,b){
-    return a.date > b.date;
+    return new Date(a.date) > new Date(b.date);
 }
 
 String.prototype.isJson = function(str) {
@@ -23,6 +23,7 @@ BEM.DOM.decl('b-calendar', {
         js: function(){
             this._build();
             BEM.blocks['b-calendar-item'].on(this.domElem, 'itemChange', this._onChange, this);
+            BEM.blocks['b-calendar-item'].on(this.domElem, 'rebuild', this._build, this);
             BEM.blocks['b-buttons'].on(this.domElem, 'load', this._load, this);
             BEM.blocks['b-buttons'].on(this.domElem, 'save', this._save, this);
             BEM.blocks['b-buttons'].on(this.domElem, 'add', this._add, this);

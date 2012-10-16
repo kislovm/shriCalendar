@@ -5,6 +5,7 @@ BEM.DOM.decl('b-calendar-item', {
                 var eventBlocks = this.findBlocksInside('b-calendar-item__event');
                 //BEM.blocks['b-calendar-item__event'].on(this.domElem, 'click', this.onDocumentClick, this);
                 BEM.blocks['b-calendar-item__event'].on(this.domElem, 'eventChange', this._onChange, this)
+                BEM.blocks['b-calendar-item__event'].on(this.domElem, 'rebuild', this._reBuild, this)
                 BEM.DOM.init(this.domElem);
          }
 
@@ -12,6 +13,10 @@ BEM.DOM.decl('b-calendar-item', {
 
     _onChange: function(){
         this.trigger('itemChange');
+    },
+
+    _reBuild: function(){
+        this.trigger('rebuild');
     },
 
     save: function(){
@@ -54,17 +59,8 @@ BEM.DOM.decl('b-calendar-item__event', {
         },
 
         _build: function(data){
-            var content = {
-                elem: 'event',
-                js: true,
-                attrs: {'data-event': JSON.stringify(data)},
-                data: data,
-                speaker: data.speaker,
-                theme: data.theme,
-            };
             this.trigger('eventChange');
-            $(this.findBlockOutside('b-calendar-item').domElem).append(BEMHTML.apply(content));
-            //this._delete();
+            this.trigger('rebuild');
         },
 
         _delete: function(e){
@@ -214,6 +210,7 @@ BEM.DOM.decl('b-calendar-item__event', {
                }
             });
             this.domElem.data('event', o);
+            this.findBlockOutside('b-page').findBlockInside('b-popup').destruct();
             this._build(o);
         },
 
