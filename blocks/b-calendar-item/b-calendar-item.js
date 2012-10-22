@@ -1,4 +1,3 @@
-
 BEM.DOM.decl('b-calendar-item', {
     onSetMod: {
         js:  function(){
@@ -184,7 +183,7 @@ BEM.DOM.decl('b-calendar-item__event', {
                                                                 content: "Сохранить"
                                                             }
                                                         ]
-                                                }                                      
+                                                }
                                             ]
                                         }
                                     ]

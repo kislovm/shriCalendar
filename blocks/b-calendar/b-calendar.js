@@ -24,9 +24,9 @@ BEM.DOM.decl('b-calendar', {
             this._build();
             BEM.blocks['b-calendar-item'].on(this.domElem, 'itemChange', this._onChange, this);
             BEM.blocks['b-calendar-item'].on(this.domElem, 'rebuild', this._build, this);
-            BEM.blocks['b-buttons'].on(this.domElem, 'load', this._load, this);
-            BEM.blocks['b-buttons'].on(this.domElem, 'save', this._save, this);
-            BEM.blocks['b-buttons'].on(this.domElem, 'add', this._add, this);
+            this.bindTo(this.elem('load'), 'click', this._load, this);
+            this.bindTo(this.elem('save'), 'click', this._save, this);
+            this.bindTo(this.elem('add'), 'click', this._add, this);
         }
 
     },
@@ -66,19 +66,19 @@ BEM.DOM.decl('b-calendar', {
             js: true,
             content: [
                 {
-                    elem: 'save-button',
+                    elem: 'button',
                     js: true,
-                    mix: [{elem: 'button'}],
+                    mix: [{block: 'b-calendar', elem: 'save'}],
                     content: "Сохранить"
                 },
                 {
-                    elem: 'load-button',
-                    mix: [{elem: 'button'}],
+                    elem: 'button',
+                    mix: [{block: 'b-calendar', elem: 'load'}],
                     content: "Выгрузить"
                 },
                 {
-                    elem: 'add-button',
-                    mix: [{elem: 'button'}],
+                    elem: 'button',
+                    mix: [{block: 'b-calendar', elem: 'add'}],
                     content: "Добавить"
                 }
             ]
@@ -283,7 +283,7 @@ BEM.DOM.decl('b-calendar', {
            }
         });
         if(o.date == ''){
-            alert('Обязательно укажите дату\n Формат: дд.мм.гггг');
+            alert('Обязательно укажите дату\n Формат: мм.дд.гггг');
             return;
         }
         this.addEventToCalendar(o);
@@ -334,39 +334,3 @@ BEM.DOM.decl('b-calendar', {
     }
 
 });
-
-
-BEM.DOM.decl('b-buttons',{
-    onSetMod: {
-        js: function(){
-            var loadButton = this.findBlockInside('b-buttons__load-button');
-            loadButton.bindTo('click', function(e){this.trigger('click')});
-            loadButton.on('click', this._onLoad,this);
-
-            var saveButton = this.findBlockInside('b-buttons__save-button');
-            saveButton.bindTo('click', function(e){this.trigger('click')});
-            saveButton.on('click', this._onSave, this);
-            
-            var addButton = this.findBlockInside('b-buttons__add-button');
-            addButton.bindTo('click', function(e){this.trigger('click')});
-            addButton.on('click', this._onAdd, this);
-
-            BEM.DOM.init(this.domElem);
-        }
-    },
-
-    _onLoad: function(){
-        this.trigger('load');
-    },
-
-    _onSave: function(){
-        this.trigger('save');
-    },
-
-    _onAdd: function(){
-        this.trigger('add');
-    }
-
-
-});
-

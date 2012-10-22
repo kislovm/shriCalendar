@@ -6,6 +6,7 @@
         { elem: 'css', url: '_index.css'},
         { elem: 'css', url: '_index', ie: true },
         { block: 'i-jquery', elem: 'core' },
+        { block: 'i-calendar' },
         { elem: 'js', url: 'index.bemhtml.js' },
         { elem: 'js', url: '_index.js' }
     ],
